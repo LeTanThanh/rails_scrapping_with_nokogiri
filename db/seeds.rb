@@ -22,18 +22,11 @@ movies_doc.css(".watchmovie-item").each_with_index do |movie, index|
     info_type = info.css("label").text
     info_value = info.css(".detail-info-right").last.text
 
-    case info_value
-    when /Quốc gia/
-      movie_attributes[:country] = info_value
-    when /Thể loại/
-      movie_attributes[:category] = info_value
-    when /Nhà sản xuất/
-      movie_attributes[:producer] = info_value
-    when /Diễn viên/
-      movie_attributes[:actors] = info_value
-    when /Ngày/
-      movie_attributes[:publish_day] = info_value
-    end
+    movie_attributes[:country] = info_value if info_type.include?("Quốc gia")
+    movie_attributes[:category] = info_value if info_type.include?("Thể loại")
+    movie_attributes[:producer] = info_value if info_type.include?("Nhà sản xuất")
+    movie_attributes[:actors] = info_value if info_type.include?("Diễn viên")
+    movie_attributes[:publish_day] = info_value if info_type.include?("Ngày")
   end
 
   movies << movie_attributes
