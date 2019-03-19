@@ -1,0 +1,48 @@
+<div class="container">
+  <h2><%= @movie.title %></h2>
+  <p><%= link_to "Back to movies", root_path %></p>
+
+  <div class="row">
+    <div class="col-md-4">
+      <%= image_tag @movie.image %>
+    </div>
+
+    <div class="col-md-8">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Title</th>
+            <td><%= @movie.title %></td>
+          </tr>
+          <tr>
+            <th>Category</th>
+            <td><%= @movie.category %></td>
+          </tr>
+          <tr>
+            <th>Country</th>
+            <td><%= @movie.country %></td>
+          </tr>
+          <tr>
+            <th>Producer</th>
+            <td><%= @movie.producer %></td>
+          </tr>
+          <tr>
+            <th>Actors</th>
+            <td><%= @movie.actors %></td>
+          </tr>
+          <tr>
+            <th>Publish day</th>
+            <td><%= @movie.publish_day.strftime("%d-%m-%Y") %></td>
+          </tr>
+        <tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row">
+    <h3>Random movies</h3>
+    <div class="js-slider-movies">
+      <%= render partial: "movies/movie", collection: @random_movies  %>
+    </div>
+  </div>
+</div>

@@ -18,7 +18,7 @@
 //= require jquery.slick
 //= require_tree .
 
-$(document).ready(function(){
+$(document).on('turbolinks:load', function(){
   $('.js-slider-movies').slick({
     dots: true,
     infinite: true,
