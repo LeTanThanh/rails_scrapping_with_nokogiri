@@ -1,7 +1,42 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+require "net/http"
+
+movies_html = Net::HTTP.get URI("https://www.galaxycine.vn/phim-dang-chieu")
+movies_doc = Nokogiri::HTML movies_html
+movies = []
+
+movies_doc.css(".watchmovie-item").each_with_index do |movie, index|
+  movie_link = movie.css(".article-watchmovie").css("a").first.attr("href")
+  movie_link = "https://www.galaxycine.vn#{movie_link}"
+
+  movie_html = Net::HTTP.get URI(movie_link)
+  movie_doc = Nokogiri::HTML movie_html
+  movie_attributes = {image: "", title: "", actors: "", country: "", category: "", producer: "", publish_day: ""}
+
+  image = movie_doc.css(".detail-feat-img").css("img").first.attr("src")
+  movie_attributes[:image] = image
+
+  title = movie_doc.css(".details").css(".detail-title").first.text
+  movie_attributes[:title] = title
+
+  movie_doc.css(".detail-info").css(".detail-info-row").each do |info|
+    info_type = info.css("label").text
+    info_value = info.css(".detail-info-right").last.text
+
+    case info_value
+    when /Quốc gia/
+      movie_attributes[:country] = info_value
+    when /Thể loại/
+      movie_attributes[:category] = info_value
+    when /Nhà sản xuất/
+      movie_attributes[:producer] = info_value
+    when /Diễn viên/
+      movie_attributes[:actors] = info_value
+    when /Ngày/
+      movie_attributes[:publish_day] = info_value
+    end
+  end
+
+  movies << movie_attributes
+end
+
+Movie.import movies
