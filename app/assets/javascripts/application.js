@@ -17,3 +17,12 @@
 //= require bootstrap-sprockets
 //= require jquery.slick
 //= require_tree .
+
+$(document).ready(function(){
+  $('.js-slider-movies').slick({
+    dots: true,
+    infinite: true,
+    slidesToShow: 4,
+    slidesToScroll: 2
+  });
+});

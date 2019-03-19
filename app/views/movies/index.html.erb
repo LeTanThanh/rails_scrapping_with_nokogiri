@@ -1,0 +1,13 @@
+<div class="container">
+  <h2>Movies</h2>
+
+  <h3>Now showing movies</h3>
+  <div class="js-slider-movies">
+    <%= render partial: "movies/movie", collection: @now_showing_movies  %>
+  </div>
+
+  <h3>Coming soon movies</h3>
+  <div class="js-slider-movies">
+    <%= render partial: "movies/movie", collection: @coming_soon_movies  %>
+  </div>
+</div>

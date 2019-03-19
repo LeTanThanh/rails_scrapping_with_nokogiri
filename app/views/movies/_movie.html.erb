@@ -1,0 +1,5 @@
+<%= link_to movie do %>
+  <%= image_tag movie.image, class: "movie-image" %>
+  <h4 class="title"><%= movie.title %></h4>
+  <h4 class="publish-day"><%= movie.publish_day.strftime("%d/%m/%Y") %></h4>
+<% end %>
